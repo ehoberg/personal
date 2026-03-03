@@ -40,10 +40,11 @@ def download_and_load_cifar10(url):
             data["train_images"].append(batch[b"data"])
             data["train_labels"].extend(batch[b"labels"])
 
-    # Concatenate and reshape the images to a more usefull format.   
+    # Concatenate and reshape the images to a more usefull format.  
+    # Original data constist of a single row containing rgb data
+    # that needs to be reshaped to reflect the actual size (32x32)
     data["train_images"] = np.concatenate(data["train_images"]).reshape(-1, 3, 32, 32).transpose(0, 2, 3, 1)
-    data["train_labels"] = np.array(data["train_labels"])
-   
+    data["train_labels"] = np.array(data["train_labels"])   
 
     
     # Load test batch
@@ -59,7 +60,7 @@ def download_and_load_cifar10(url):
         meta = pickle.load(f, encoding="bytes")
         data["label_names"] = meta[b"label_names"]
     
-    print("Dataset loaded successfully")
+   
     print(f"Training images shape: {data['train_images'].shape}")
     print(f"Test images shape: {data['test_images'].shape}")
     
